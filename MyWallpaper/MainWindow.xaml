@@ -1,0 +1,333 @@
+﻿<Window x:Class="MyWallpaper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyWallpaper"
+        xmlns:model="clr-namespace:MyWallpaper.Model"
+        xmlns:pu="clr-namespace:Panuon.UI.Silver;assembly=Panuon.UI.Silver" xmlns:myusercontrol="clr-namespace:MyWallpaper.MyUserControl" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="我的壁纸管理器" Height="620" Width="1020"
+        WindowStyle="None"
+        WindowChrome.WindowChrome="{DynamicResource WindowChromeKey}"
+         Foreground="White"
+        FontSize="16"
+        >
+    <Window.Resources>
+        <WindowChrome x:Key="WindowChromeKey">
+            <WindowChrome.ResizeBorderThickness>
+                <Thickness>5</Thickness>
+            </WindowChrome.ResizeBorderThickness>
+            <WindowChrome.CaptionHeight>0</WindowChrome.CaptionHeight>
+        </WindowChrome>
+    </Window.Resources>
+    <Grid>
+        <Grid Background="Black" Opacity="0.2"/>
+        <Grid x:Name="Grid_main">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ProgressBar IsIndeterminate="True" Name="ProgressBar_Loading" Visibility="Collapsed" Grid.Row="1"/>
+            <!--标题栏-->
+            <Grid MouseLeftButtonDown="Grid_MouseLeftButtonDown" Height="32" Background="Transparent">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="Button_mini"
+                        Background="Transparent"
+                        BorderThickness="0"
+                            ToolTip="最小化"
+                            Click="Button_mini_click"
+                        Width="46"
+                        Style="{DynamicResource ButtonStyle1}">
+                        <Button.Content>
+                            <TextBlock Text="&#xE108;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="Button_max"
+                        Background="Transparent"
+                        BorderThickness="0"
+                            ToolTip="最大化"
+                            Click="Button_max_click"
+                        Width="46"
+                        Style="{DynamicResource ButtonStyle1}">
+                        <Button.Content>
+                            <TextBlock Text="&#xE71A;" FontFamily="Segoe MDL2 Assets" Name="TextBlock_max" FontSize="12"/>
+                        </Button.Content>
+                    </Button>
+                    <Button x:Name="Button_close"
+                        BorderThickness="0"
+                        Background="Transparent"
+                            ToolTip="关闭"
+                            Click="Button_close_Click"
+                        Width="46" Style="{DynamicResource ButtonStyle1}">
+                        <Button.Content>
+                            <TextBlock Text="&#xE10A;" FontFamily="Segoe MDL2 Assets" FontSize="12"/>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <!--主要功能界面-->
+            <Grid Grid.Row="2" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Margin="20,4,20,20"
+                  Drop="AdaGrid_Pics_Drop"
+                  DragDrop.DragOver="AdaGrid_Pics_DragOver"
+                  DragDrop.DragLeave="AdaGrid_Pics_Leave">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="210"/>
+                </Grid.ColumnDefinitions>
+                <TabControl Background="Transparent" BorderThickness="0">
+                    <TabItem Style="{DynamicResource   MaterialDesignNavigationRailTabItem}" Height="36" Padding="0" Margin="0"
+                             >
+                        <TabItem.Header>
+                            <TextBlock Text="我的" Background="Transparent" Foreground="White"/>
+                        </TabItem.Header>
+                        <Grid>
+                            <Grid Background="Black" Opacity="0.1"/>
+                            <myusercontrol:AdaGrid x:Name="AdaGrid_Pics"
+                                       Background="Transparent"
+                                       AllowDrop="True"/>
+                            <TextBlock Text="&#xE1DA;"
+                           FontSize="24"
+                           FontFamily="Segoe UI Symbol"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Name="TextBlock_DropTip"
+                           Visibility="Collapsed"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}" Height="36" Padding="0"
+                             >
+                        <TabItem.Header>
+                            <TextBlock Text="必应" Background="Transparent" Foreground="White"/>
+                        </TabItem.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Background="Black" Opacity="0.1" Grid.Row="1"/>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox Margin="20,10"
+                                          Style="{StaticResource      MaterialDesignFloatingHintComboBox}"
+                                          materialDesign:HintAssist.Hint="截至时间"
+                                          SelectedIndex="{ Binding BingIdx}"
+                                          x:Name="ComboBox_Bing_Idx"
+                                          SelectionChanged="ComboBox__Bing_Idx_SelectionChanged"
+                                          Foreground="White"
+                                          BorderBrush="White">
+                                    <ComboBoxItem Content="今天" Tag="0" Foreground="Black"/>
+                                    <ComboBoxItem Content="明天" Tag="-1" Foreground="Black"/>
+                                    <ComboBoxItem Content="1天前" Tag="1" Foreground="Black"/>
+                                    <ComboBoxItem Content="2前天" Tag="2" Foreground="Black"/>
+                                    <ComboBoxItem Content="3前天" Tag="3" Foreground="Black"/>
+                                    <ComboBoxItem Content="4前天" Tag="4" Foreground="Black"/>
+                                    <ComboBoxItem Content="5前天" Tag="5" Foreground="Black"/>
+                                    <ComboBoxItem Content="6前天" Tag="6" Foreground="Black"/>
+                                    <ComboBoxItem Content="7前天" Tag="7" Foreground="Black"/>
+                                    <ComboBoxItem Content="8前天" Tag="8" Foreground="Black"/>
+                                </ComboBox>
+                                <ComboBox Margin="20,10"
+                                          Style="{StaticResource      MaterialDesignFloatingHintComboBox}"
+                                          materialDesign:HintAssist.Hint="图片数量"
+                                          SelectedIndex="{Binding BingN}"
+                                          x:Name="ComboBox_Bing_N"
+                                          SelectionChanged="ComboBox_Bing_N_SelectionChanged"
+                                          Foreground="White"
+                                          BorderBrush="White">
+                                    <ComboBoxItem Content="1" Tag="1" Foreground="Black"/>
+                                    <ComboBoxItem Content="2" Tag="2" Foreground="Black"/>
+                                    <ComboBoxItem Content="3" Tag="3" Foreground="Black"/>
+                                    <ComboBoxItem Content="4" Tag="4" Foreground="Black"/>
+                                    <ComboBoxItem Content="5" Tag="5" Foreground="Black"/>
+                                    <ComboBoxItem Content="6" Tag="6" Foreground="Black"/>
+                                    <ComboBoxItem Content="7" Tag="7" Foreground="Black"/>
+                                    <ComboBoxItem Content="8" Tag="8" Foreground="Black"/>
+                                </ComboBox>
+                                <TextBox
+                                    x:Name="TextBox_Bing_Region"
+                                    materialDesign:HintAssist.Hint="必应地区"
+                                    Style="{StaticResource    MaterialDesignFloatingHintTextBox}" 
+                                    Margin="20,10"
+                                    Text="{Binding BingRegion}"
+                                    TextChanged="TextBox_Bing_Region_TextChanged"
+                                   Foreground="White"
+                                          BorderBrush="White"/>
+                                <TextBox
+                                    x:Name="TextBox_Bing_Host"
+                                    materialDesign:HintAssist.Hint="URI前缀"
+                                    Style="{StaticResource    MaterialDesignFloatingHintTextBox}" 
+                                    Margin="20,10"
+                                    Text="{Binding BingHost}"
+                                    TextChanged="TextBox_Bing_Host_TextChanged"
+                                   Foreground="White"
+                                          BorderBrush="White"/>
+                            </StackPanel>
+                            <ListBox x:Name="ListBox_Bings" Grid.Row="1" Margin="10"
+                                     MouseLeftButtonUp="ListBox_Bings_MouseLeftButtonUp">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type local:ImagesItem}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="{Binding BitmapImage}" Width="128" Height="72"/>
+                                            <TextBlock Text="{Binding Copyright}" 
+                                                       TextWrapping="Wrap" Foreground="White"
+                                                       VerticalAlignment="Center"
+                                                       Grid.Column="1"
+                                                       Margin="10"/>
+                                            <Grid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="复制Uri" Name="MenuItem_CopyBingUri" Click="MenuItem_CopyBingUri_Click"/>
+                                                </ContextMenu>
+                                            </Grid.ContextMenu>
+                                            
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem  Style="{StaticResource MaterialDesignNavigationRailTabItem}" Height="36" Padding="0">
+                        <TabItem.Header>
+                            <TextBlock Text="聚焦" Background="Transparent" Foreground="White"/>
+                        </TabItem.Header>
+                        <Grid>
+                            <Grid Background="Black" Opacity="0.1" Grid.Row="1"/>
+                            <ListBox x:Name="ListBox_Spotlights" Grid.Row="1" Margin="10"
+                                     MouseLeftButtonUp="ListBox_Spotlights_MouseLeftButtonUp">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type model:Spotlight}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="{Binding BitmapImage}" Width="128" Height="72"/>
+                                            <TextBlock Text="{Binding Name}" 
+                                                       TextWrapping="Wrap" Foreground="White"
+                                                       VerticalAlignment="Center"
+                                                       Grid.Column="1"
+                                                       Margin="10"/>
+                                            <Grid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="复制Uri" Name="MenuItem_CopySpotlightUri" Click="MenuItem_CopySpotlightUri_Click"/>
+                                                </ContextMenu>
+                                            </Grid.ContextMenu>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </TabItem>
+                         
+                </TabControl>
+                <Rectangle Width="1"  Fill="Black" Grid.Column="1" Margin="10,0" Opacity="0.3"/>
+                <StackPanel Grid.Column="2">
+                    <TextBox
+  x:Name="TextBox_Duration"
+  materialDesign:HintAssist.Hint="间隔时间(m)"
+  Style="{StaticResource    MaterialDesignFloatingHintTextBox}" 
+                        
+                        Margin="0,14"
+                         Text="{Binding Duration}"
+                        BorderBrush="White"/>
+                    <ComboBox Margin="0,14"
+  Style="{StaticResource      MaterialDesignFloatingHintComboBox}"
+  materialDesign:HintAssist.Hint="轮播方式"
+                              SelectedIndex="{Binding Type}"
+                              x:Name="ComboBox_ChangeType"
+                              BorderBrush="White"
+  >
+                        <ComboBoxItem
+    Content="顺序" />
+                        <ComboBoxItem
+    Content="随机" />
+                    </ComboBox>
+                    <TextBox
+  x:Name="TextBox_Filter"
+  materialDesign:HintAssist.Hint="图片格式"
+  Style="{StaticResource    MaterialDesignFloatingHintTextBox}" 
+                        Margin="0,14"
+                        BorderBrush="White"
+                        Text="{Binding RegexStr}"/>
+                    <ListBox
+  Style="{StaticResource MaterialDesignFilterChipPrimaryListBox}"
+                        Margin="0,14"
+                        Name="ListBox_EnableFunc">
+                        <ListBoxItem
+                            IsSelected="{Binding SetMine}"
+                             Margin="2">
+                            <TextBlock Foreground="White" Text="我的"/>
+                        </ListBoxItem>
+                        
+                        <ListBoxItem
+                            Margin="2"
+                            IsSelected="{Binding SetBing}">
+                            <TextBlock Foreground="White" Text="必应"/>
+                        </ListBoxItem>
+                        <ListBoxItem
+                            Margin="2"
+                            IsSelected="{Binding SetSpotlight}">
+                            <TextBlock Foreground="White" Text="聚焦"/>
+                        </ListBoxItem>
+                    </ListBox>
+                    <Button Margin="0,14"
+  Style="{StaticResource       MaterialDesignFlatButton}"
+  Content="开启服务" 
+                     Foreground="White"
+                            Name="Button_StartService"
+                            Click="Button_StartService_Click"
+                            Tag="0">
+                        <Button.Background>
+                            <SolidColorBrush Color="White"
+                                             Opacity="0.1"/>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            
+        </Grid>
+        <materialDesign:DialogHost
+  VerticalAlignment="Center"
+  CloseOnClickAway="True"
+  OverlayBackground="{DynamicResource PrimaryHueDarkBrush}"
+  DialogTheme="Light"
+            Name="DialogHost_AddImgPath"
+            >
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel
+      Margin="16">
+                    <TextBlock
+        Text="图片地址" />
+                    <TextBox
+        Margin="0 8 0 0"
+        HorizontalAlignment="Stretch"
+        x:Name="FruitTextBox" 
+                        MinWidth="260"
+                        />
+                    <StackPanel
+        Orientation="Horizontal"
+        HorizontalAlignment="Right">
+                        <Button
+          Style="{StaticResource MaterialDesignFlatButton}"
+          IsDefault="True"
+          Margin="0 8 8 0"
+          Content="确定"
+                            Click="Button_ConfirmAddPic_Click"/>
+                        <Button
+          Style="{StaticResource MaterialDesignFlatButton}"
+          IsCancel="True"
+          Margin="0 8 8 0"
+          Content="取消"
+                            Click="Button_CancelAddPic_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+    </Grid>
+</Window>
