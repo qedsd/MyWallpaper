@@ -38,7 +38,7 @@ start  /b  workerservice/MyWallpaperService.exe -f
 
 4.在MyWallpaper.exe同一路径下创建文件夹workerservice，将MyWallpaperService生成文件放在此文件夹内
 
-5.运行MyWallpaper.exe
+5.以管理员运行MyWallpaper.exe（因为要添加删除启动项）
 
 ## 使用（直接使用）
 
