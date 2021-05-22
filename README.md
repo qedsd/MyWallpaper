@@ -43,3 +43,10 @@ start  /b  workerservice/MyWallpaperService.exe -f
 ## 使用（直接使用）
 
 下载releases压缩包解压即可打开MyWallpaper.exe使用（不确保最新）
+
+
+## UI
+
+![](http://src.qedsd.club/MyWallpaper1.png)
+![](http://src.qedsd.club/MyWallpaper2.png)
+![](http://src.qedsd.club/MyWallpaper3.png)
