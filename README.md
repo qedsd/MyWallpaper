@@ -42,10 +42,11 @@ start  /b  workerservice/MyWallpaperService.exe -f
 
 ## 使用（直接使用）
 
-下载releases压缩包解压即可打开MyWallpaper.exe使用（不确保最新）
+下载releases压缩包解压即可打开MyWallpaper.exe使用
 
 ## 管理器功能说明
 
+- 管理器背景图片为Img文件夹下的bg.jpg，修改此图片即可更换背景（重启生效）
 - 添加图标左键可添加图片，右键可选择添加网络图片或者文件夹
 - 添加文件夹会按照设定的图片格式寻找该文件夹内所有图片（包括子文件夹）
 - 开启服务后会把修改壁纸服务添加自启，关闭服务则取消自启
