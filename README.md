@@ -42,7 +42,7 @@ start  /b  workerservice/MyWallpaperService.exe -f
 
 ## 使用（直接使用）
 
-下载releases压缩包解压，以 **管理器** 身份运行MyWallpaper.exe
+下载releases压缩包解压，以 **管理员** 身份运行MyWallpaper.exe
 
 ## 管理器功能说明
 
